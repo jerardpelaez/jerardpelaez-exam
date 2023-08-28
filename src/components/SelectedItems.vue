@@ -26,7 +26,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="1" v-if="selected.includes(product)">
-            <v-icon @click="addSelectedItem(product)"> mdi-delete </v-icon>
+            <v-icon @click="deleteSelectedItem(product)"> mdi-delete </v-icon>
           </v-col>
         </v-row>
       </v-list-item-content>
@@ -47,15 +47,17 @@ export default {
   },
 
   methods: {
-    addSelectedItem(selectedItem) {
-      this.$store.commit("addSelectedItem", selectedItem);
+    deleteSelectedItem(selectedItem) {
+      this.$store.commit("deleteSelectedItem", selectedItem);
     },
 
     addToSelected(product) {
       if (!this.selected.includes(product)) {
         this.selected.push(product);
       } else {
-        const objWithIdIndex = this.selected.findIndex((obj) => obj.id === product.id);
+        const objWithIdIndex = this.selected.findIndex(
+          (obj) => obj.id === product.id
+        );
 
         if (objWithIdIndex > -1) {
           this.selected.splice(objWithIdIndex, 1);

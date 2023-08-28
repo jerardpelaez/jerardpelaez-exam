@@ -64,6 +64,20 @@ export default new Vuex.Store({
         }
       }
     },
+    deleteSelectedItem(state, selectedItem) {
+      const objWithIdIndex = state.selectedItems.findIndex((obj) => obj.id === selectedItem.id);
+
+      if (objWithIdIndex > -1) {
+        state.selectedItems.splice(objWithIdIndex, 1);
+      }
+      state.snackbar = true
+      state.snackbarMessage = `<span>Deleted <span style="font-weight: bold; color: black;"> ${selectedItem.name}</span> successfully!</span>`
+
+      setTimeout(() => {
+        state.snackbar = false
+        state.snackbarMessage = ""
+      }, 3000);
+    },
     showSnackBar(state, showMessage) {
       state.snackbarMessage = showMessage
       state.snackbar = true

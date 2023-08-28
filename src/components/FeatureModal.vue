@@ -8,7 +8,13 @@
       </template>
       <v-card>
         <v-card-title>
-          <v-btn v-if="modalTitle !== 'Browse'" outlined class="mr-10 pa-0" small @click="back">
+          <v-btn
+            v-if="modalTitle !== 'Browse'"
+            outlined
+            class="mr-10 pa-0"
+            small
+            @click="back"
+          >
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
           <span class="text-h5">{{ modalTitle }}</span>
@@ -36,7 +42,7 @@
                 <ListItems :listItems="selectedProducts" :type="'products'" />
               </v-col>
               <v-col cols="12" v-if="inSelectedList">
-                <SelectedItems />
+                <SelectedItems @deletedItem="showSnackbar" />
               </v-col>
             </v-row>
           </v-container>
@@ -107,12 +113,24 @@ export default {
     },
   },
 
+  watch: {
+    selectedItems() {
+      if (this.selectedItems.length == 0) {
+        this.inSelectedList = false;
+      }
+    },
+  },
+
   methods: {
     back() {
       if (!this.inSelectedList) {
         this.$store.commit("setSearchValue", null);
       } else this.inSelectedList = false;
     },
+    showSnackbar(payload) {
+      console.log(payload)
+      this.$store.commit("showSnackbar", `Deleted ${payload.name} successfully`)
+    }
   },
 };
 </script>
