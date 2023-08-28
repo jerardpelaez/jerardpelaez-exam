@@ -24,6 +24,9 @@
               :disabled="!selected.includes(product)"
               v-model="product.purchasePrices[0].quantityStart"
             ></v-text-field>
+            <span v-if="addedItemsSummary.includes(product)"
+              >In list: {{ product.purchasePrices[0].quantitySummary }}</span
+            >
           </v-col>
           <v-col cols="1" v-if="selected.includes(product)">
             <v-icon @click="deleteSelectedItem(product)"> mdi-delete </v-icon>
@@ -38,11 +41,15 @@
 export default {
   data: () => ({
     selected: [],
+    quantity: 1
   }),
 
   computed: {
     selectedItems() {
       return this.$store.state.selectedItems;
+    },
+    addedItemsSummary() {
+      return this.$store.state.addedItemsSummary;
     },
   },
 
@@ -63,7 +70,7 @@ export default {
           this.selected.splice(objWithIdIndex, 1);
         }
       }
-    },
+    }
   },
 };
 </script>

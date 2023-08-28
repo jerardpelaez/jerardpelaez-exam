@@ -23,7 +23,7 @@
             <v-list-item-subtitle>Sku: {{ item.sku }}</v-list-item-subtitle>
             <v-list-item-subtitle
               >Quantity:
-              {{ item.purchasePrices[0].quantityStart }}</v-list-item-subtitle
+              {{ item.purchasePrices[0].quantitySummary }}</v-list-item-subtitle
             >
           </v-list-item-content>
           <v-list-item-action>

@@ -19,6 +19,8 @@
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
           <span class="text-h5">{{ modalTitle }}</span>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -127,6 +129,7 @@ export default {
     back() {
       if (!this.inSelectedList) {
         this.$store.commit("setSearchValue", null);
+        this.$store.commit("setSearchValueProduct", null);
       } else this.inSelectedList = false;
     },
     showSnackbar(payload) {

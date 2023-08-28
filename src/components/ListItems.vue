@@ -1,13 +1,23 @@
 <template>
   <v-card class="mx-auto" max-width="500">
-    <v-list>
-      <v-list-group v-for="(item, index) in listItems" :key="index">
+    <v-list
+      >
+      <v-list-group
+        v-for="(item, index) in listItems"
+        :key="index"
+        :append-icon="type == 'supplier' ? '' : '$expand'"
+      >
         <template v-slot:activator>
           <v-list-item-content @click="setActive(item)">
             <v-list-item-title
-              :class="checkSimilar(item.childProducts) ? 'blue--text' : ''"
-              >{{ item.name }}</v-list-item-title
-            >
+              :class="
+                checkSimilar(item.childProducts) ? 'blue--text' : 'black--text'
+              "
+              >{{ item.name }}
+              <span v-if="countSeletedItems(item)"
+                >| Selected Items: {{ countSeletedItems(item) }}</span
+              >
+            </v-list-item-title>
           </v-list-item-content>
         </template>
 
@@ -40,6 +50,9 @@
                   :disabled="!selectedItems.includes(product)"
                   v-model="product.purchasePrices[0].quantityStart"
                 ></v-text-field>
+                <span v-if="addedItemsSummary.includes(product)"
+                  >In list: {{ product.purchasePrices[0].quantitySummary }}</span
+                >
               </v-col>
             </v-row>
           </v-list-item-content>
@@ -60,6 +73,9 @@ export default {
     selectedItems() {
       return this.$store.state.selectedItems;
     },
+    addedItemsSummary() {
+      return this.$store.state.addedItemsSummary;
+    }
   },
 
   methods: {
@@ -77,6 +93,17 @@ export default {
         return childProduct.some((element) => {
           return this.selectedItems.indexOf(element) !== -1;
         });
+      } catch (error) {
+        //
+      }
+    },
+
+    countSeletedItems(product) {
+      try {
+        var z = this.selectedItems.filter(function (val) {
+          return product.childProducts.indexOf(val) != -1;
+        });
+        return z.length;
       } catch (error) {
         //
       }

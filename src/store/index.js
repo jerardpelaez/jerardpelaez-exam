@@ -58,8 +58,23 @@ export default new Vuex.Store({
       let arr = state.addedItemsSummary.concat(addedItemsSummary);
       let mergedArr = [...new Set(arr)]
       state.addedItemsSummary = mergedArr
+
+      state.snackbar = true
+      state.snackbarMessage = `<span>Added items successfully!</span>`
+
+      setTimeout(() => {
+        state.snackbar = false
+        state.snackbarMessage = ""
+      }, 3000);
     },
     removeAddedItemSummary(state, product) {
+      state.products.data.forEach(productItem => {
+        productItem.childProducts.forEach(child => {
+          if(child.id == product.item.id) {
+            child.purchasePrices[0].quantitySummary = null
+          }
+        })
+      })
       let filtered = state.addedItemsSummary.filter(function (item) {
         return item !== product.item
       })
@@ -95,6 +110,21 @@ export default new Vuex.Store({
       state.snackbar = true
     },
     resetState(state) {
+      // reset products quantity state
+      state.products.data.forEach(product => {
+        product.childProducts.forEach(child => {
+          if (child.purchasePrices[0].quantitySummary) {
+            console.log(child.purchasePrices[0].quantitySummary)
+            let summary = parseInt(child.purchasePrices[0].quantitySummary)
+            let fromList = parseInt(child.purchasePrices[0].quantityStart)
+            child.purchasePrices[0].quantitySummary = summary + fromList
+          } else {
+            child.purchasePrices[0].quantitySummary = child.purchasePrices[0].quantityStart
+          }
+
+          child.purchasePrices[0].quantityStart = 1
+        })
+      })
       state.suppliers = suppliersData,
         state.products = productsData,
         state.searchValue = null,
