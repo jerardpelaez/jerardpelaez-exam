@@ -4,7 +4,10 @@
       <v-list-group v-for="(item, index) in listItems" :key="index">
         <template v-slot:activator>
           <v-list-item-content @click="setActive(item)">
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
+            <v-list-item-title
+              :class="checkSimilar(item.childProducts) ? 'blue--text' : ''"
+              >{{ item.name }}</v-list-item-title
+            >
           </v-list-item-content>
         </template>
 
@@ -24,7 +27,9 @@
               </v-col>
               <v-col cols="8">
                 <v-row no-gutters>
-                  <v-col cols="12"> {{ product.sku }} | {{ product.name }} </v-col>
+                  <v-col cols="12">
+                    {{ product.sku }} | {{ product.name }}
+                  </v-col>
                   <v-col cols="12"> SKU: {{ product.sku }} </v-col>
                 </v-row>
               </v-col>
@@ -65,6 +70,16 @@ export default {
     },
     addSelectedItem(selectedItem) {
       this.$store.commit("addSelectedItem", selectedItem);
+    },
+
+    checkSimilar(childProduct) {
+      try {
+        return childProduct.some((element) => {
+          return this.selectedItems.indexOf(element) !== -1;
+        });
+      } catch (error) {
+        //
+      }
     },
   },
 };

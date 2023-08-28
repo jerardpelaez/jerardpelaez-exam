@@ -68,6 +68,15 @@ export default new Vuex.Store({
       state.snackbarMessage = showMessage
       state.snackbar = true
     },
+    resetState(state) {
+      state.suppliers = suppliersData,
+      state.products = productsData,
+      state.searchValue = null,
+      state.searchValueProduct = null,
+      state.selectedItems = [],
+      state.snackbarMessage = "",
+      state.snackbar = false
+    }
   },
   actions: {
   },
