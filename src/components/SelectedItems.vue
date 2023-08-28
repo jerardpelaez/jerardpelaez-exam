@@ -27,11 +27,11 @@
               @click.prevent.stop
               type="number"
               :disabled="!selected.includes(product)"
-              @keyup="detectValue(product)"
+              @input="detectValue(product)"
               v-model="product.purchasePrices[0].quantityStart"
             ></v-text-field>
             <span v-if="addedItemsSummary.includes(product)"
-              >In list: {{ product.purchasePrices[0].quantitySummary }}</span
+              >In list: {{ product.purchasePrices[0].quantitySummary.toLocaleString() }}</span
             >
           </v-col>
           <v-col
@@ -70,17 +70,18 @@ export default {
     },
 
     detectValue(value) {
-      if (!value.purchasePrices[0].quantityStart) {
+      if (value.purchasePrices[0].quantityStart <= 0) {
         let invalidValue = this.selectedItems.find((item) => {
           return item.id == value.id;
         });
+
         setTimeout(() => {
           if (
             !invalidValue.purchasePrices[0].quantityStart ||
-            invalidValue.purchasePrices[0].quantityStart == 0
+            invalidValue.purchasePrices[0].quantityStart <= 0
           )
             invalidValue.purchasePrices[0].quantityStart = 1;
-        }, 800);
+        }, 1000);
       }
     },
 

@@ -16,22 +16,22 @@
           </v-list-item-avatar>
 
           <v-list-item-content class="text-caption">
-            <span>Price per item: €{{ item.purchasePrices[0].price }}</span>
+            <span>Price per item: € {{ item.purchasePrices[0].price.toLocaleString() }}</span>
             <v-list-item-title
               >Name: {{ item.name }} | SKU: {{ item.sku }}</v-list-item-title
             >
             <v-list-item-subtitle
               >Quantity:
               <span style="font-weight: bold"
-                >x{{ item.purchasePrices[0].quantitySummary }}</span
+                >x{{ item.purchasePrices[0].quantitySummary.toLocaleString() }}</span
               >
             </v-list-item-subtitle>
             <v-list-item-subtitle
-              >Total Price: €{{
+              >Total Price: € {{
                 Math.round(
                   item.purchasePrices[0].price *
                     item.purchasePrices[0].quantitySummary
-                )
+                ).toLocaleString()
               }}</v-list-item-subtitle
             >
           </v-list-item-content>
@@ -50,7 +50,7 @@
       </template>
     </v-list>
     <v-list class="px-8" v-if="addedItemsSummary.length > 0">
-      All items price summary: <strong>€ {{ totalPriceSummary }}</strong>
+      All items price summary: <strong>€ {{ totalPriceSummary.toLocaleString() }}</strong>
     </v-list>
   </v-card>
 </template>
