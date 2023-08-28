@@ -1,7 +1,6 @@
 <template>
   <v-card class="mx-auto" max-width="500">
-    <v-list
-      >
+    <v-list>
       <v-list-group
         v-for="(item, index) in listItems"
         :key="index"
@@ -47,11 +46,13 @@
                 <v-text-field
                   @click.prevent.stop
                   type="number"
+                  @keyup="detectValue(product)"
                   :disabled="!selectedItems.includes(product)"
                   v-model="product.purchasePrices[0].quantityStart"
                 ></v-text-field>
                 <span v-if="addedItemsSummary.includes(product)"
-                  >In list: {{ product.purchasePrices[0].quantitySummary }}</span
+                  >In list:
+                  {{ product.purchasePrices[0].quantitySummary }}</span
                 >
               </v-col>
             </v-row>
@@ -75,7 +76,7 @@ export default {
     },
     addedItemsSummary() {
       return this.$store.state.addedItemsSummary;
-    }
+    },
   },
 
   methods: {
@@ -86,6 +87,18 @@ export default {
     },
     addSelectedItem(selectedItem) {
       this.$store.commit("addSelectedItem", selectedItem);
+    },
+
+    detectValue(value) {
+      if (!value.purchasePrices[0].quantityStart) {
+        let invalidValue = this.selectedItems.find((item) => {
+          return item.id == value.id;
+        });
+        setTimeout(() => {
+          if (!invalidValue.purchasePrices[0].quantityStart || invalidValue.purchasePrices[0].quantityStart == 0)
+            invalidValue.purchasePrices[0].quantityStart = 1;
+        }, 800);
+      }
     },
 
     checkSimilar(childProduct) {

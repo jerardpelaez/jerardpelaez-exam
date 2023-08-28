@@ -115,13 +115,16 @@ export default new Vuex.Store({
         product.childProducts.forEach(child => {
           if (!child.purchasePrices[0].quantitySummary) {
             child.purchasePrices[0].quantitySummary = 0
+            child.totalPrice = 0
           }
           if (state.selectedItems.includes(child)) {
             let summary = parseInt(child.purchasePrices[0].quantitySummary)
-            let fromList = parseInt(child.purchasePrices[0].quantityStart)
+            let fromList = 1
+            if (parseInt(child.purchasePrices[0].quantityStart)) fromList = parseInt(child.purchasePrices[0].quantityStart)
             child.purchasePrices[0].quantitySummary = summary + fromList
           }
 
+          child.totalPrice = child.purchasePrices[0].quantitySummary * child.purchasePrices[0].price
           child.purchasePrices[0].quantityStart = 1
         })
       })

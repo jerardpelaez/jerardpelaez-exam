@@ -12,12 +12,13 @@
           <v-btn
             v-if="modalTitle !== 'Browse'"
             outlined
-            class="mr-10 pa-0"
+            class="pa-0"
             small
             @click="back"
           >
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
+          <v-spacer></v-spacer>
           <span class="text-h5">{{ modalTitle }}</span>
           <v-spacer></v-spacer>
           <v-btn icon @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>

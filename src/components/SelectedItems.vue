@@ -22,6 +22,7 @@
               @click.prevent.stop
               type="number"
               :disabled="!selected.includes(product)"
+              @keyup="detectValue(product)"
               v-model="product.purchasePrices[0].quantityStart"
             ></v-text-field>
             <span v-if="addedItemsSummary.includes(product)"
@@ -41,7 +42,7 @@
 export default {
   data: () => ({
     selected: [],
-    quantity: 1
+    quantity: 1,
   }),
 
   computed: {
@@ -58,6 +59,18 @@ export default {
       this.$store.commit("deleteSelectedItem", selectedItem);
     },
 
+    detectValue(value) {
+      if (!value.purchasePrices[0].quantityStart) {
+        let invalidValue = this.selectedItems.find((item) => {
+          return item.id == value.id;
+        });
+        setTimeout(() => {
+          if (!invalidValue.purchasePrices[0].quantityStart || invalidValue.purchasePrices[0].quantityStart == 0)
+            invalidValue.purchasePrices[0].quantityStart = 1;
+        }, 800);
+      }
+    },
+
     addToSelected(product) {
       if (!this.selected.includes(product)) {
         this.selected.push(product);
@@ -70,7 +83,7 @@ export default {
           this.selected.splice(objWithIdIndex, 1);
         }
       }
-    }
+    },
   },
 };
 </script>
