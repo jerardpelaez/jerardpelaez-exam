@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mx-auto" max-width="500">
-    <v-list>
+  <v-card class="mx-auto">
+    <v-list tile elevation="0">
       <v-list-group
         v-for="(item, index) in listItems"
         :key="index"
@@ -24,25 +24,25 @@
           v-for="(product, productIndex) in item.childProducts"
           :key="productIndex"
           @click="addSelectedItem(product)"
-          :class="selectedItems.includes(product) ? 'light-blue' : ''"
+          :class="selectedItems.includes(product) ? 'light-blue lighten-4' : ''"
         >
           <v-list-item-content>
             <v-row no-gutters>
-              <v-col cols="2">
+              <v-col cols="2" align-self="center">
                 <v-checkbox
                   disabled
                   :value="selectedItems.includes(product)"
                 ></v-checkbox>
               </v-col>
-              <v-col cols="8">
+              <v-col cols="8" align-self="center" class="pr-2">
                 <v-row no-gutters>
                   <v-col cols="12">
                     {{ product.sku }} | {{ product.name }}
                   </v-col>
-                  <v-col cols="12"> SKU: {{ product.sku }} </v-col>
+                  <v-col cols="12" class="pt-2"> SKU: {{ product.sku }} </v-col>
                 </v-row>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="2" align-self="center">
                 <v-text-field
                   @click.prevent.stop
                   type="number"
@@ -95,7 +95,10 @@ export default {
           return item.id == value.id;
         });
         setTimeout(() => {
-          if (!invalidValue.purchasePrices[0].quantityStart || invalidValue.purchasePrices[0].quantityStart == 0)
+          if (
+            !invalidValue.purchasePrices[0].quantityStart ||
+            invalidValue.purchasePrices[0].quantityStart == 0
+          )
             invalidValue.purchasePrices[0].quantityStart = 1;
         }, 800);
       }
@@ -124,3 +127,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.border-item {
+  border-bottom: 1px solid grey;
+}
+</style>

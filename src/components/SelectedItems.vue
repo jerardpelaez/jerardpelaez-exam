@@ -1,17 +1,22 @@
 <template>
-  <v-card class="mx-auto" max-width="500">
+  <v-card class="mx-auto" flat>
     <v-list-item
       v-for="(product, productIndex) in selectedItems"
       :key="productIndex"
       @click="addToSelected(product)"
-      :class="selected.includes(product) ? 'light-blue' : ''"
+      :class="selected.includes(product) ? 'light-blue lighten-4' : ''"
     >
       <v-list-item-content>
         <v-row no-gutters>
-          <v-col cols="2">
-            <v-icon>mdi-laptop</v-icon>
+          <v-col cols="1" align-self="center">
+            <v-img
+              contain
+              width="50"
+              height="50"
+              src="https://cdn-icons-png.flaticon.com/512/4129/4129437.png"
+            ></v-img>
           </v-col>
-          <v-col cols="7">
+          <v-col cols="7" align-self="center" class="pl-5">
             <v-row no-gutters>
               <v-col cols="12"> {{ product.sku }} | {{ product.name }} </v-col>
               <v-col cols="12"> SKU: {{ product.sku }} </v-col>
@@ -29,7 +34,12 @@
               >In list: {{ product.purchasePrices[0].quantitySummary }}</span
             >
           </v-col>
-          <v-col cols="1" v-if="selected.includes(product)">
+          <v-col
+            cols="2"
+            class="pl-4 text-center"
+            align-self="center"
+            v-if="selected.includes(product)"
+          >
             <v-icon @click="deleteSelectedItem(product)"> mdi-delete </v-icon>
           </v-col>
         </v-row>
@@ -65,7 +75,10 @@ export default {
           return item.id == value.id;
         });
         setTimeout(() => {
-          if (!invalidValue.purchasePrices[0].quantityStart || invalidValue.purchasePrices[0].quantityStart == 0)
+          if (
+            !invalidValue.purchasePrices[0].quantityStart ||
+            invalidValue.purchasePrices[0].quantityStart == 0
+          )
             invalidValue.purchasePrices[0].quantityStart = 1;
         }, 800);
       }

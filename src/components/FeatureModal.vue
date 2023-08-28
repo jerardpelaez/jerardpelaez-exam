@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog v-model="dialog" persistent max-width="700px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" outlined color="white">
           <v-icon>mdi-plus</v-icon>
@@ -23,7 +23,7 @@
           <v-spacer></v-spacer>
           <v-btn icon @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="pa-0">
           <v-container>
             <v-row no-gutters>
               <v-col
@@ -52,27 +52,32 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            v-if="!inSelectedList"
-            :disabled="selectedItems.length < 1"
-            outlined
-            @click="inSelectedList = true"
-            >{{ selectedItems.length }} products selected</v-btn
-          >
-          <v-spacer></v-spacer>
-          <v-btn outlined text @click="dialog = false" class="border-btn">
-            Cancel
-          </v-btn>
-          <v-btn
-            class="ml-5"
-            :class="selectedItems.length < 1 ? '' : 'border-btn'"
-            outlined
-            text
-            :disabled="selectedItems.length < 1"
-            @click="addSelectedItems"
-          >
-            Add
-          </v-btn>
+          <v-row no-gutters>
+            <v-col cols="12" md="6" class="pb-4">
+              <v-btn
+                v-if="!inSelectedList"
+                :disabled="selectedItems.length < 1"
+                outlined
+                @click="inSelectedList = true"
+                >{{ selectedItems.length }} products selected</v-btn
+              >
+            </v-col>
+            <v-col cols="12" md="6" :class="$vuetify.breakpoint.smAndDown ? '' : 'text-right'">
+              <v-btn outlined text @click="dialog = false" class="border-btn">
+                Cancel
+              </v-btn>
+              <v-btn
+                class="ml-5"
+                :class="selectedItems.length < 1 ? '' : 'border-btn'"
+                outlined
+                text
+                :disabled="selectedItems.length < 1"
+                @click="addSelectedItems"
+              >
+                Add
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
