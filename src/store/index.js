@@ -14,12 +14,13 @@ export default new Vuex.Store({
     searchValueProduct: null,
     selectedItems: [],
     snackbarMessage: "",
-    snackbar: false
+    snackbar: false,
+    addedItemsSummary: []
   },
   getters: {
     selectedSuppliers(state) {
       try {
-        if(!state.searchValue) {
+        if (!state.searchValue) {
           return state.suppliers
         } else {
           return state.suppliers.filter((supplier) => {
@@ -32,7 +33,7 @@ export default new Vuex.Store({
     },
     selectedProducts(state) {
       try {
-        if(!state.searchValueProduct) {
+        if (!state.searchValueProduct) {
           return state.products.data.filter((product) => {
             return product.supplierId == state.searchValue.id;
           });
@@ -52,6 +53,17 @@ export default new Vuex.Store({
     },
     setSearchValueProduct(state, searchValueProduct) {
       state.searchValueProduct = searchValueProduct
+    },
+    setAddedItemsSummary(state, addedItemsSummary) {
+      let arr = state.addedItemsSummary.concat(addedItemsSummary);
+      let mergedArr = [...new Set(arr)]
+      state.addedItemsSummary = mergedArr
+    },
+    removeAddedItemSummary(state, product) {
+      let filtered = state.addedItemsSummary.filter(function (item) {
+        return item !== product.item
+      })
+      state.addedItemsSummary = filtered
     },
     addSelectedItem(state, selectedItem) {
       if (!state.selectedItems.includes(selectedItem)) {
@@ -84,12 +96,12 @@ export default new Vuex.Store({
     },
     resetState(state) {
       state.suppliers = suppliersData,
-      state.products = productsData,
-      state.searchValue = null,
-      state.searchValueProduct = null,
-      state.selectedItems = [],
-      state.snackbarMessage = "",
-      state.snackbar = false
+        state.products = productsData,
+        state.searchValue = null,
+        state.searchValueProduct = null,
+        state.selectedItems = [],
+        state.snackbarMessage = "",
+        state.snackbar = false
     }
   },
   actions: {

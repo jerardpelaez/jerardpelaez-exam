@@ -2,8 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          Add products
+        <v-btn v-bind="attrs" v-on="on" outlined color="white">
+          <v-icon>mdi-plus</v-icon>
+          <span> Add Products </span>
         </v-btn>
       </template>
       <v-card>
@@ -65,6 +66,7 @@
             outlined
             text
             :disabled="selectedItems.length < 1"
+            @click="addSelectedItems"
           >
             Add
           </v-btn>
@@ -128,9 +130,17 @@ export default {
       } else this.inSelectedList = false;
     },
     showSnackbar(payload) {
-      console.log(payload)
-      this.$store.commit("showSnackbar", `Deleted ${payload.name} successfully`)
-    }
+      this.$store.commit(
+        "showSnackbar",
+        `Deleted ${payload.name} successfully`
+      );
+    },
+    addSelectedItems() {
+      this.$store.commit("setAddedItemsSummary", this.selectedItems);
+      this.$store.commit("resetState", this.selectedItems);
+      this.$store.commit("showSnackBar", "Added selected items successfully!");
+      this.dialog = false;
+    },
   },
 };
 </script>
