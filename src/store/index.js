@@ -70,7 +70,7 @@ export default new Vuex.Store({
     removeAddedItemSummary(state, product) {
       state.products.data.forEach(productItem => {
         productItem.childProducts.forEach(child => {
-          if(child.id == product.item.id) {
+          if (child.id == product.item.id) {
             child.purchasePrices[0].quantitySummary = null
           }
         })
@@ -113,13 +113,13 @@ export default new Vuex.Store({
       // reset products quantity state
       state.products.data.forEach(product => {
         product.childProducts.forEach(child => {
-          if (child.purchasePrices[0].quantitySummary) {
-            console.log(child.purchasePrices[0].quantitySummary)
+          if (!child.purchasePrices[0].quantitySummary) {
+            child.purchasePrices[0].quantitySummary = 0
+          }
+          if (state.selectedItems.includes(child)) {
             let summary = parseInt(child.purchasePrices[0].quantitySummary)
             let fromList = parseInt(child.purchasePrices[0].quantityStart)
             child.purchasePrices[0].quantitySummary = summary + fromList
-          } else {
-            child.purchasePrices[0].quantitySummary = child.purchasePrices[0].quantityStart
           }
 
           child.purchasePrices[0].quantityStart = 1

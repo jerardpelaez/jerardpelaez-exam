@@ -23,12 +23,18 @@
             <v-list-item-subtitle>Sku: {{ item.sku }}</v-list-item-subtitle>
             <v-list-item-subtitle
               >Quantity:
-              {{ item.purchasePrices[0].quantitySummary }}</v-list-item-subtitle
-            >
+              <span style="font-weight: bold">x{{
+                item.purchasePrices[0].quantitySummary
+              }}</span>
+            </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <v-btn icon>
-              <v-icon color="red lighten-1" @click="removeItem({item: item, index: index})">mdi-minus</v-icon>
+              <v-icon
+                color="red lighten-1"
+                @click="removeItem({ item: item, index: index })"
+                >mdi-minus</v-icon
+              >
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -42,7 +48,7 @@
 import FeatureModal from "./FeatureModal.vue";
 export default {
   components: { FeatureModal },
-  
+
   computed: {
     addedItemsSummary() {
       return this.$store.state.addedItemsSummary;
@@ -51,8 +57,8 @@ export default {
 
   methods: {
     removeItem(item) {
-        this.$store.commit("removeAddedItemSummary", item)
-    }
-  }
+      this.$store.commit("removeAddedItemSummary", item);
+    },
+  },
 };
 </script>

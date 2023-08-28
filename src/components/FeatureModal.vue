@@ -140,7 +140,7 @@ export default {
     },
     addSelectedItems() {
       this.$store.commit("setAddedItemsSummary", this.selectedItems);
-      this.$store.commit("resetState", this.selectedItems);
+      this.$store.commit("resetState");
       this.$store.commit("showSnackBar", "Added selected items successfully!");
       this.dialog = false;
     },
